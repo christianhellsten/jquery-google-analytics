@@ -55,8 +55,8 @@ The track method takes four arguments of which the last two are optional:
 
 * "category":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Categories - required string used to group events
 * "action":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Actions - required string used to define event type, eg. click, download
-* "label":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Labels - optional label to attach to event
-* "value":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Values - optional numerical value to attach to event
+* "label":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Labels - optional label to attach to event, eg. buy
+* "value":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Values - optional numerical value to attach to event, eg. price
 
 The following snippet shows you how to define the parameters:
 
@@ -75,6 +75,6 @@ The following snippet shows you how to define the parameters:
   </code>
 </pre>
 	
-Note that you can also use function instead of string values. Functions are useful for extracting the values from the HTML itself (metadata).
+Note that you can also use functions instead of string values. Functions are useful for extracting the values from the HTML itself (metadata).
 
 
