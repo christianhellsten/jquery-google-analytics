@@ -16,7 +16,7 @@
 * Version 1.0.0
 *
 * Tested with:
-* Mac: Firefox Firefox 3
+* Mac: Firefox 3
 *
 * Licensed under the MIT license:
 * http://www.opensource.org/licenses/mit-license.php
