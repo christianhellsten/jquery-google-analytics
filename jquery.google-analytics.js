@@ -24,7 +24,7 @@
 */
 
 (function($) {
-	$.fn.trackClick = function(options) {
+	$.fn.track = function(options) {
 		
 		var element = $(this);
 		
@@ -40,22 +40,24 @@
 			var link	 = $(this);
 
 			// Use default options, if necessary
-			var settings = $.extend({}, $.fn.trackClick.defaults, options);
+			var settings = $.extend({}, $.fn.track.defaults, options);
 
-			var href 	 = link.attr('href');
 			var category = evaluate(link, settings.category);
-			var event    = evaluate(link, settings.event);
-			var label    = href;
-
-			debug('Tracking ' + href);
+			var action   = evaluate(link, settings.action);
+			var label    = evaluate(link, settings.label);
+			var value    = evaluate(link, settings.value);
+			
+			var message  = "category:'" + category + "' action:'" + action + "' label:'" + label + "' value:'" + value + "'";
+			
+			debug('Tracking ' + message);
 
 			link.click(function() {				
-				debug("Clicked category:'" + category + "' event:'" + event + "' href:'" + href + "'");
+				debug('Clicked ' + message);
 				
 				if(typeof pageTracker == 'undefined') {
 					// alert('You need to install the Google Analytics script'); blocked by whatever
 				} else {
-					pageTracker._trackEvent(category, event, href);
+					pageTracker._trackEvent(category, action, label, value);
 				}
 				return false;
 			});
@@ -76,8 +78,10 @@
     };
 
 	// Default (overridable) settings
-	$.fn.trackClick.defaults = {
-		category : 'outgoing',
-		event    : 'event'
+	$.fn.track.defaults = {
+		category 	: 'link',
+		action   	: 'click',
+		label		: function(element) { return element.attr('href') },
+		value 		: null
 	};
 })(jQuery);

@@ -19,16 +19,16 @@
 
 		<script type="text/javascript">
 		$(document).ready(function(){
-			$('.sidebar a').trackClick({
+			$('.sidebar a').track({
 				category : 'sidebar'
 			});
 
-			$('.footer a').trackClick({
+			$('.footer a').track({
 				category : 'footer'
 			});
 
 			// Support any markup you want, eg. http://microformats.org/wiki/xFolk
-			$('.complex a').trackClick({
+			$('.complex a').track({
 				// Use class as category. " tracked" is added by plugin...
 				category : function(element) { return element.attr('class').replace(' tracked', '') }
 			});

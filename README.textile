@@ -19,22 +19,22 @@ Inside the head tag, first include the jQuery JavaScript file, then the jQuery G
 
 h3. HTML
 
-Use jQuery selectors (and the trackClick function) to select the elements you want to track, as shown in the example below.
+Use jQuery selectors (and the track function) to select the elements you want to track, as shown in the example below.
 
 <pre>
   <code>
 	<script type="text/javascript">
 	$(document).ready(function(){
-		$('.sidebar a').trackClick({
+		$('.sidebar a').track({
 			category : 'sidebar'
 		});
 
-		$('.footer a').trackClick({
+		$('.footer a').track({
 			category : 'footer'
 		});
 
 		// Support any markup you want, eg. http://microformats.org/wiki/xFolk
-		$('.complex a').trackClick({
+		$('.complex a').track({
 			// Use class as category. " tracked" is added by plugin...
 			category : function(element) { return element.attr('class').replace(' tracked', '') }
 		});
@@ -48,3 +48,33 @@ The first example selects links in the sidebar and sets the category to 'sidebar
 The second example selects links in the footer and sets the category to 'footer'.
 
 The third example selects links located inside the "complex div" and uses the link's class as category.
+
+h2. Parameters
+
+The track method takes four arguments of which the last two are optional:
+
+* "category":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Categories - required string used to group events
+* "action":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Actions - required string used to define event type, eg. click, download
+* "label":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Labels - optional label to attach to event
+* "value":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Values - optional numerical value to attach to event
+
+The following snippet shows you how to define the parameters:
+
+<pre>
+  <code>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('.sidebar a').track({
+			category : 'sidebar',
+			action   : 'click',
+			label    : 'buy',
+			value    : '10.49'
+		});
+	});
+	</script>
+  </code>
+</pre>
+	
+Note that you can also use function instead of string values. Functions are useful for extracting the values from the HTML itself (metadata).
+
+
