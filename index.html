@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>jQuery Google Analytics Plugin Examples</title>
+		<script src="jquery.js" type="text/javascript"></script>
+		<script src="jquery.google-analytics.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="sidebar">
+			<a href="http://www.sidebar.com">Sidebar link</a>
+		</div>		
+
+		<div class="footer">
+			<a href="http://www.footer.com">Footer link</a>
+		</div>
+
+		<div class="complex">
+			<a href="http://www.complex.com" class="complex">Complex link</a>
+		</div>
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+			$('.sidebar a').trackClick({
+				category : 'sidebar'
+			});
+
+			$('.footer a').trackClick({
+				category : 'footer'
+			});
+
+			// Support any markup you want, eg. http://microformats.org/wiki/xFolk
+			$('.complex a').trackClick({
+				// Use class as category. " tracked" is added by plugin...
+				category : function(element) { return element.attr('class').replace(' tracked', '') }
+			});
+		});
+		</script>
+	</body>
+</html>
