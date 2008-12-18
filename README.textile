@@ -19,25 +19,29 @@ Inside the head tag, first include the jQuery JavaScript file, then the jQuery G
 
 h3. HTML
 
-Use jQuery selectors to select the elements you want to track, as shown in the example below.
+Use jQuery selectors (and the trackClick function) to select the elements you want to track, as shown in the example below.
 
-<script type="text/javascript">
-$(document).ready(function(){
-	$('.sidebar a').trackClick({
-		category : 'sidebar'
-	});
+<pre>
+  <code>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('.sidebar a').trackClick({
+			category : 'sidebar'
+		});
 
-	$('.footer a').trackClick({
-		category : 'footer'
-	});
+		$('.footer a').trackClick({
+			category : 'footer'
+		});
 
-	// Support any markup you want, eg. http://microformats.org/wiki/xFolk
-	$('.complex a').trackClick({
-		// Use class as category. " tracked" is added by plugin...
-		category : function(element) { return element.attr('class').replace(' tracked', '') }
+		// Support any markup you want, eg. http://microformats.org/wiki/xFolk
+		$('.complex a').trackClick({
+			// Use class as category. " tracked" is added by plugin...
+			category : function(element) { return element.attr('class').replace(' tracked', '') }
+		});
 	});
-});
-</script>
+	</script>
+  </code>
+</pre>
 
 The first example selects links in the sidebar and sets the category to 'sidebar'.
 
