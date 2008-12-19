@@ -59,7 +59,7 @@
 				} else {
 					pageTracker._trackEvent(category, action, label, value);
 				}
-				return false;
+				return true;
 			});
 		});
 		
