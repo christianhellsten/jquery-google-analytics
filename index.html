@@ -5,6 +5,16 @@
 		<script src="jquery.google-analytics.js" type="text/javascript"></script>
 	</head>
 	<body>
+    <h1>jQuery Google Analytics Plugin Examples</h1>
+    <h2>Internal/external link tracking</h2>
+		<div class="normal">
+			<a href="/abcdef">Internal link</a><br/>
+			<a href="http://www.complex.com">External link</a><br/>
+			<a href="#">Named link</a><br/>
+      <a href="javascript:void(0)">JavaScript link</a>
+		</div>
+
+    <h2>Metadata extraction using callbacks</h2>
 		<div class="sidebar">
 			<a href="http://www.sidebar.com">Sidebar link</a>
 		</div>		
@@ -19,6 +29,8 @@
 
 		<script type="text/javascript">
 		$(document).ready(function(){
+			$('.normal a').track();
+
 			$('.sidebar a').track({
 				category : 'sidebar'
 			});

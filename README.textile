@@ -4,6 +4,12 @@ h2. Introduction
 
 A jQuery plugin that simplifies event and link tracking.
 
+Features:
+
+* Easy and extensible event and link tracking plugin for jQuery and Google Analytics
+* Automatic internal/external link detection. Default behavior is to skip tracking of internal links.
+* Configurable: skip internal link tracking, metadata extraction using callbacks.
+
 h2. Installation
 
 h3. JavaScript
@@ -17,7 +23,12 @@ Inside the head tag, first include the jQuery JavaScript file, then the jQuery G
   </code>
 </pre>
 
-h3. HTML
+You now have access to two new methods:
+
+* track - Used in combination with jQuery selectors to add click tracking to matching elements.
+* trackEvent - Same as _pageTracker.trackEvent, but checks that analytics isn't blocked by user.
+
+h3. Usage
 
 Use jQuery selectors (and the track function) to select the elements you want to track, as shown in the example below.
 
@@ -51,12 +62,16 @@ The third example selects links located inside the "complex div" and uses the li
 
 h2. Parameters
 
-The track method takes four arguments of which the last two are optional:
+The track method accepts the following arguments:
 
-* "category":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Categories - required string used to group events
-* "action":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Actions - required string used to define event type, eg. click, download
-* "label":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Labels - optional label to attach to event, eg. buy
-* "value":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Values - optional numerical value to attach to event, eg. price
+* "category":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Categories - required string used to group events. Default is autodetected: internal or external.
+* "action":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Actions - required string used to define event type, eg. click, download. Default is click.
+* "label":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Labels - optional label to attach to event, eg. buy. Default is href attribute's value.
+* "value":http://code.google.com/apis/analytics/docs/eventTrackerGuide.html#Values - optional numerical value to attach to event, eg. price. Default null.
+
+In addition to the earlier mentioned arguments, you can also specify these:
+
+* skip_internal - Default false. If true then internal links are not tracked.
 
 The following snippet shows you how to define the parameters:
 
@@ -74,7 +89,12 @@ The following snippet shows you how to define the parameters:
 	</script>
   </code>
 </pre>
-	
+
+If no parameters are given then sensible defaults are used, which should work in most cases.
+
 Note that you can also use functions instead of string values. Functions are useful for extracting the values from the HTML itself (metadata).
 
+h2. Author
+
+"Christian Hellsten":http://christianhellsten.com ("Aktagon Ltd.":http://aktagon.com)
 
