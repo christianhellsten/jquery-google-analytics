@@ -9,6 +9,7 @@ Features:
 * Easy and extensible event and link tracking plugin for jQuery and Google Analytics
 * Automatic internal/external link detection. Default behavior is to skip tracking of internal links.
 * Configurable: skip internal link tracking, metadata extraction using callbacks.
+* Enforces that tracking event handler is added only once.
 
 h2. Installation
 
@@ -36,7 +37,9 @@ Use jQuery selectors (and the track function) to select the elements you want to
   <code>
 	<script type="text/javascript">
 	$(document).ready(function(){
-		$('.sidebar a').track({
+    $('.normal a').track();
+
+    $('.sidebar a').track({
 			category : 'sidebar'
 		});
 
@@ -59,6 +62,8 @@ The first example selects links in the sidebar and sets the category to 'sidebar
 The second example selects links in the footer and sets the category to 'footer'.
 
 The third example selects links located inside the "complex div" and uses the link's class as category.
+
+See index.html for complete examples.
 
 h2. Parameters
 
