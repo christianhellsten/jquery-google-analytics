@@ -26,8 +26,8 @@ Inside the head tag, first include the jQuery JavaScript file, then the jQuery G
 
 You now have access to two new methods:
 
-* track - Used in combination with jQuery selectors to add click tracking to matching elements.
-* trackEvent - Same as _pageTracker.trackEvent, but checks that analytics isn't blocked by user.
+* track - Used in combination with jQuery selectors to add click tracking to matching elements. For example: $('selector').track() 
+* trackEvent - Same as _pageTracker.trackEvent, but checks that analytics isn't blocked by user. For example: $.trackEvent('category', 'action', 'label')
 
 h3. Usage
 

@@ -5,9 +5,10 @@
 *
 * Features:
 *
-* - Easy and extensible event and link tracking
-* - Automatic internal/external link detection
+* - Easy and extensible event and link tracking plugin for jQuery and Google Analytics
+* - Automatic internal/external link detection. Default behavior is to skip tracking of internal links.
 * - Configurable: skip internal link tracking, metadata extraction using callbacks.
+* - Enforces that tracking event handler is added only once.
 *
 * Copyright (c) 2008 Christian Hellsten
 *
@@ -48,7 +49,7 @@
    *  skip_internal - optional boolean value. If true then internal links are not tracked.
    *
    */
-  function trackEvent(category, action, label, value) {
+  $.trackEvent = function(category, action, label, value) {
     if(typeof pageTracker == 'undefined') {
       // alert('You need to install the Google Analytics script'); blocked by whatever
     } else {
@@ -95,7 +96,7 @@
         var skip = settings.skip_internal && (link[0].hostname == location.hostname);
 			
         if(!skip) {
-          trackEvent(category, action, label, value);
+          $.trackEvent(category, action, label, value);
 				  debug('Tracked ' + message);
         } else {
           debug('Skipped ' + message);
