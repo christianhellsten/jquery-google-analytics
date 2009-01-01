@@ -76,7 +76,7 @@ The track method accepts the following arguments:
 
 In addition to the earlier mentioned arguments, you can also specify these:
 
-* skip_internal - Default false. If true then internal links are not tracked.
+* skip_internal - Default true. If true then internal links are not tracked.
 
 The following snippet shows you how to define the parameters:
 
