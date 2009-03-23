@@ -2,7 +2,7 @@ h1. jQuery Google Analytics Plugin
 
 h2. Introduction
 
-A Google Analytics plugin for jQuery that:
+The jQuery Google Analytics plugin does the following:
 
 * improves page load times by deferring the loading of Google Analytics to after the page has been loaded.
 * simplifies event and link tracking.
@@ -29,9 +29,10 @@ With the script loaded you now have access to these new methods:
 * $.('selector').track - Used in combination with jQuery selectors to add click tracking, or tracking of other jQuery events, to matching elements. For example: $('selector').track() 
 * $.trackEvent - Used for custom event tracking. Same as _pageTracker.trackEvent, but checks that analytics isn't blocked. For example: $.trackEvent('category', 'action', 'label')
 
-h4. Deferred loading of Google Analytics
 
-To enable Google Analytics add a call to $.trackPage inside the head tag:
+h4. Page tracking
+
+To enable Google Analytics page tracking add a call to $.trackPage inside the head tag:
 
 <pre>
   <code>
@@ -43,13 +44,27 @@ To enable Google Analytics add a call to $.trackPage inside the head tag:
   </code>
 </pre>
 
-To improve page load times, the script defers the loading of the Google Analytics script to after the page has been loaded (window.onload). To disable this feature, set the second parameter to false:
+To improve page load times, the script defers the loading of the Google Analytics script to after the page has been loaded (window.onload). To disable this feature, set the onload parameter to false:
 
 <pre>
   <code>
-	<script type="text/javascript">
-  $.trackPage('UA-YOUR_ACCOUNT_ID', false)
-	</script>
+  <script type="text/javascript">
+  $.trackPage('UA-YOUR_ACCOUNT_ID', {onload: false})
+  </script>
+  </code>
+</pre>
+
+h5. Tracking 404 and 500 errors
+
+This plugin implements tracking of error pages "as described on the Google Analytics Help pages":http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=86927
+
+To track an error, simply set the status_code parameter to the response code, as shown in this example:
+
+<pre>
+  <code>
+  <script type="text/javascript">
+  $.trackPage('UA-YOUR_ACCOUNT_ID', {status_code: 404}); // Track a 404 error
+  </script>
   </code>
 </pre>
 
@@ -61,8 +76,8 @@ The following is an example of how to track outgoing links (to also track intern
 
 <pre>
   <code>
-	<script type="text/javascript">
-	$(document).ready(function(){
+  <script type="text/javascript">
+  $(document).ready(function(){
     $('.normal a').track();
 
     $('.sidebar a').track({
@@ -78,8 +93,8 @@ The following is an example of how to track outgoing links (to also track intern
       // Use class as category. " tracked" is added by plugin...
       category : function(element) { return element.attr('class').replace(' tracked', '') }
     });
-	});
-	</script>
+  });
+  </script>
   </code>
 </pre>
 
@@ -91,20 +106,6 @@ The third example selects links located inside the "complex div" and uses the li
 
 See index.html for complete examples.
 
-h4. Tracking 404 and 500 errors
-
-This plugin implements tracking of error pages "as described on the Google Analytics Help pages":
-http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=86927
-
-To track an error, simply set the third parameter to the response code, as shown in this example:
-
-<pre>
-  <code>
-	<script type="text/javascript">
-  $.trackPage('UA-YOUR_ACCOUNT_ID', true, 404); // Track a 404 error
-  </script>
-  </code>
-</pre>
 
 
 h4. Custom event tracking
@@ -113,8 +114,8 @@ You can also track events by calling the trackEvent method:
 
 <pre>
   <code>
-	<script type="text/javascript">
-	$(document).ready(function(){
+  <script type="text/javascript">
+  $(document).ready(function(){
     $.trackEvent(category, action, label, value);
   </script>
   </code>
@@ -139,16 +140,16 @@ The following snippet shows you how to define the parameters:
 
 <pre>
   <code>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$('.sidebar a').track({
-			category : 'sidebar',
-			action   : 'click',
-			label    : 'buy',
-			value    : '10.49'
-		});
-	});
-	</script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('.sidebar a').track({
+      category : 'sidebar',
+      action   : 'click',
+      label    : 'buy',
+      value    : '10.49'
+    });
+  });
+  </script>
   </code>
 </pre>
 
@@ -162,8 +163,8 @@ The default behavior is to track the click event. This can be changed to any oth
 
 <pre>
   <code>
-	<script type="text/javascript">
-	$(document).ready(function(){
+  <script type="text/javascript">
+  $(document).ready(function(){
     $('.normal a').track({event_name: 'mouseover'});
   </script>
   </code>
