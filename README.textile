@@ -40,18 +40,18 @@ Use jQuery selectors (and the track function) to select the elements you want to
     $('.normal a').track();
 
     $('.sidebar a').track({
-			category : 'sidebar'
-		});
+      category : 'sidebar'
+    });
 
-		$('.footer a').track({
-			category : 'footer'
-		});
+    $('.footer a').track({
+      category : 'footer'
+    });
 
-		// Support any markup you want, eg. http://microformats.org/wiki/xFolk
-		$('.complex a').track({
-			// Use class as category. " tracked" is added by plugin...
-			category : function(element) { return element.attr('class').replace(' tracked', '') }
-		});
+    // Support any markup you want, eg. http://microformats.org/wiki/xFolk
+    $('.complex a').track({
+      // Use class as category. " tracked" is added by plugin...
+      category : function(element) { return element.attr('class').replace(' tracked', '') }
+    });
 	});
 	</script>
   </code>
