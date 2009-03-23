@@ -4,9 +4,10 @@
 * A jQuery plugin that makes it easier to implement Google Analytics tracking, including event and link tracking.
 *
 * Adds the following methods to jQuery:
-* - $.googleAnalytics() - Adds Google Analytics tracking to the page it's called from.
+* - $.trackPage() - Adds Google Analytics tracking to the page it's called from.
 * - $('a').track() - Adds click tracking to elements.
 * - $.trackEvent() - Tracks an event using the given parameters. 
+* - $.timePageLoad() - Measures the time it takes  an event using the given parameters. 
 *
 * Features:
 *
@@ -42,7 +43,7 @@
 * Credits:
 *   - http://google.com/analytics: 
 *   - http://lyncd.com: 
-*       The googleAnalytics method was found here http://lyncd.com/2009/03/better-google-analytics-javascript/ and improved on slightly.
+*       The trackPage method was found here http://lyncd.com/2009/03/better-google-analytics-javascript/ and improved on slightly.
 *
 */
 
@@ -56,18 +57,23 @@
    * Example:
    *
    *  <script type="text/javascript">
-   *    $.googleAnalytics('UA-xxx-xxx');
+   *    $.trackPage('UA-xxx-xxx', options);
    *  </script>
    *
    * Parameters:
    *
    *  account_id - Your Google Analytics account ID.
-   *  onload - If false, the Google Analytics code is loaded when this method is called instead of on window.onload.
+   *  options - An associative array containing one or more optional parameters:
+   *    - onload - If false, the Google Analytics code is loaded when this method is called instead of on window.onload.
+   *    - status_code - The HTTP status code of the current server response. If this is set to something other than 200 then the page is tracked as an error page. See this page for details: http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=86927
    *
    */
-  $.googleAnalytics = function(account_id, onload) {
+  $.trackPage = function(account_id, options) {
     var host = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
     var script;
+
+    // Use default options, if necessary
+    var settings = $.extend({}, {onload: true, status_code: 200}, options);
     
     script    = document.createElement('script');
     script.src  = host + 'google-analytics.com/ga.js';
@@ -76,12 +82,20 @@
     
     function init_analytics() {
       if (!script.onloadDone) {
+        debug('Google Analytics loaded');
+
         script.onloadDone = true;
 
         try {
           pageTracker = _gat._getTracker(account_id);
-          pageTracker._trackPageview();
-          debug('Google Analytics loaded');
+
+          if(settings.status_code == null || settings.status_code == 200) {
+            pageTracker._trackPageview();
+          } else {
+            debug('Tracking error ' + settings.status_code);
+            pageTracker._trackPageview("/" + settings.status_code + ".html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer);
+          }
+          
         } catch(err) {
           debug('Google Analytics failed to load: ' + err);
         }
@@ -105,7 +119,7 @@
     }
 
     // Enable tracking when called or on page load?
-    if(onload == true || onload == null) {
+    if(settings.onload == true || settings.onload == null) {
       $(window).load(load_script);
     } else {
       load_script();

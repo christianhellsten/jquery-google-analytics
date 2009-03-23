@@ -6,6 +6,7 @@ A Google Analytics plugin for jQuery that:
 
 * improves page load times by deferring the loading of Google Analytics to after the page has been loaded.
 * simplifies event and link tracking.
+* helps you track error pages (404, 500) as described "here":http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=86927.
 
 h2. Installation
 
@@ -24,19 +25,19 @@ h3. Usage
 
 With the script loaded you now have access to these new methods:
 
-* $.googleAnalytics('UA-XXX-XXX') - Adds Google Analytics tracking to the page it's called from. By default, the loading of Google analytics is done after the onload event.
+* $.trackPage('UA-XXX-XXX') - Adds Google Analytics tracking to the page it's called from. By default, the loading of Google analytics is done after the onload event.
 * $.('selector').track - Used in combination with jQuery selectors to add click tracking, or tracking of other jQuery events, to matching elements. For example: $('selector').track() 
 * $.trackEvent - Used for custom event tracking. Same as _pageTracker.trackEvent, but checks that analytics isn't blocked. For example: $.trackEvent('category', 'action', 'label')
 
 h4. Deferred loading of Google Analytics
 
-To enable Google Analytics add a call to $.googleAnalytics inside the head tag:
+To enable Google Analytics add a call to $.trackPage inside the head tag:
 
 <pre>
   <code>
   <head>
     <script type="text/javascript">
-    $.googleAnalytics('UA-YOUR_ACCOUNT_ID')
+    $.trackPage('UA-YOUR_ACCOUNT_ID')
     </script>
   </head>
   </code>
@@ -47,7 +48,7 @@ To improve page load times, the script defers the loading of the Google Analytic
 <pre>
   <code>
 	<script type="text/javascript">
-  $.googleAnalytics('UA-YOUR_ACCOUNT_ID', true)
+  $.trackPage('UA-YOUR_ACCOUNT_ID', false)
 	</script>
   </code>
 </pre>
@@ -89,6 +90,22 @@ The second example selects links in the footer and sets the category to 'footer'
 The third example selects links located inside the "complex div" and uses the link's class as category.
 
 See index.html for complete examples.
+
+h4. Tracking 404 and 500 errors
+
+This plugin implements tracking of error pages "as described on the Google Analytics Help pages":
+http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=86927
+
+To track an error, simply set the third parameter to the response code, as shown in this example:
+
+<pre>
+  <code>
+	<script type="text/javascript">
+  $.trackPage('UA-YOUR_ACCOUNT_ID', true, 404); // Track a 404 error
+  </script>
+  </code>
+</pre>
+
 
 h4. Custom event tracking
 
