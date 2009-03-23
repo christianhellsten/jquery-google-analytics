@@ -61,8 +61,8 @@
    *
    * Parameters:
    *
-   *  account_id – Your Google Analytics account ID.
-   *  onload – If true, the Google Analytics code is loaded on window.onload instead of when called.
+   *  account_id - Your Google Analytics account ID.
+   *  onload - If false, the Google Analytics code is loaded when this method is called instead of on window.onload.
    *
    */
   $.googleAnalytics = function(account_id, onload) {
@@ -105,7 +105,7 @@
     }
 
     // Enable tracking when called or on page load?
-    if(onload == true) {
+    if(onload == true || onload == null) {
       $(window).load(load_script);
     } else {
       load_script();
@@ -160,12 +160,13 @@
       var action   = evaluate(link, settings.action);
       var label    = evaluate(link, settings.label);
       var value    = evaluate(link, settings.value);
+      var event_name = evaluate(link, settings.event_name);
       
       var message  = "category:'" + category + "' action:'" + action + "' label:'" + label + "' value:'" + value + "'";
       
-      debug('Tracking ' + message);
+      debug('Tracking ' + event_name + ' ' + message);
 
-      link.click(function() {       
+      link.bind(event_name, function() {       
         
         // Should we skip internal links?
         var skip = settings.skip_internal && (link[0].hostname == location.hostname);
@@ -208,6 +209,7 @@
     action        : 'click',
     label         : function(element) { return element.attr('href') },
     value         : null,
-    skip_internal : true
+    skip_internal : true,
+    event_name    : 'click'
   };
 })(jQuery);

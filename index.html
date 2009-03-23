@@ -11,7 +11,7 @@
 	<body>
 
     <h1>jQuery Google Analytics Plugin Examples</h1>
-    <h2>Enable Google Analytics</h2>
+    <h2>Deferred loading of Google Analytics</h2>
     <code>
     <pre>
 // Load Google Analytics script and track page views
@@ -60,5 +60,31 @@
 			});
 		});
 		</script>
+
+    <h2>Mouse over event tracking</h2>
+
+    <a href="www.google.com" id="hover">Hover over me</a>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('a#hover').track({event_name: 'mouseover'})
+});
+</script>
+
+    <pre><code>
+$(document).ready(function(){
+  $('a#hover').track({event_name: 'mouseover'})
+});
+    </code></pre>
+
+
+    <h2>Custom event tracking</h2>
+
+    <pre><code>
+$(document).ready(function(){
+  $('a#custom-event').click(function() { $.trackEvent('category', 'action', 'label', 'value') });
+});
+    </code></pre>
+
+
 	</body>
 </html>
