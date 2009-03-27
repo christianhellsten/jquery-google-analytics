@@ -30,10 +30,10 @@
 * Repository:
 * git://github.com/christianhellsten/jquery-google-analytics.git
 *
-* Version 1.1.0
+* Version 1.1.1
 *
 * Tested with:
-* - Mac: Firefox 3
+* - Mac: Firefox 3, Safari 3
 * - Linux: Firefox 3
 * - Windows: Firefox 3, Internet Explorer 6
 *
@@ -43,7 +43,7 @@
 * Credits:
 *   - http://google.com/analytics: 
 *   - http://lyncd.com: 
-*       The trackPage method was found here http://lyncd.com/2009/03/better-google-analytics-javascript/ and improved on slightly.
+*       Idea for trackPage method came from this blog post: http://lyncd.com/2009/03/better-google-analytics-javascript/
 *
 */
 
@@ -74,50 +74,33 @@
 
     // Use default options, if necessary
     var settings = $.extend({}, {onload: true, status_code: 200}, options);
-    
-    script    = document.createElement('script');
-    script.src  = host + 'google-analytics.com/ga.js';
-    script.type   = 'text/javascript';
-    script.onloadDone = false;
-    
+    var src  = host + 'google-analytics.com/ga.js';
+
     function init_analytics() {
-      if (!script.onloadDone) {
+      if (typeof _gat != undefined) {
         debug('Google Analytics loaded');
 
-        script.onloadDone = true;
+        pageTracker = _gat._getTracker(account_id);
 
-        try {
-          pageTracker = _gat._getTracker(account_id);
-
-          if(settings.status_code == null || settings.status_code == 200) {
-            pageTracker._trackPageview();
-          } else {
-            debug('Tracking error ' + settings.status_code);
-            pageTracker._trackPageview("/" + settings.status_code + ".html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer);
-          }
-          
-        } catch(err) {
-          debug('Google Analytics failed to load: ' + err);
+        if(settings.status_code == null || settings.status_code == 200) {
+          pageTracker._trackPageview();
+        } else {
+          debug('Tracking error ' + settings.status_code);
+          pageTracker._trackPageview("/" + settings.status_code + ".html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer);
         }
 
       }
-    }
-    
-    script.onload = function () {
-      init_analytics();
-    };
-    
-    script.onreadystatechange = function() {
-      if ('loaded' === script.readyState) {
-        init_analytics();
+      else { 
+        throw "_gat is undefined"; // setInterval loading?
       }
-    };
-
-    // Enable tracking by adding script to head
-    load_script = function() {
-      document.getElementsByTagName('head')[0].appendChild(script);
     }
 
+    load_script = function() {
+      $.getScript(src, function() {
+        init_analytics();
+      })
+    }
+    
     // Enable tracking when called or on page load?
     if(settings.onload == true || settings.onload == null) {
       $(window).load(load_script);
@@ -212,7 +195,7 @@
    * Prints to Firebug console if available. 
    */
   function debug(message) {
-    if(typeof console != 'undefined') {
+    if(typeof console != 'undefined' && typeof console.debug != 'undefined') {
       console.debug(message);
     }     
   };
