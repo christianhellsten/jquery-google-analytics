@@ -192,21 +192,25 @@
   };
 
   /**
-   * Prints to Firebug console if available. 
+   * Prints to Firebug console, if available. To enable:
+   *   $.fn.track.defaults.debug = true;
    */
   function debug(message) {
-    if(typeof console != 'undefined' && typeof console.debug != 'undefined') {
+    if (typeof console != 'undefined' && typeof console.debug != 'undefined' && $.fn.track.defaults.debug) {
       console.debug(message);
-    }     
+    }
   };
 
-  // Default (overridable) settings
+  /**
+   * Default (overridable) settings.
+   */
   $.fn.track.defaults = {
     category      : function(element) { return (element[0].hostname == location.hostname) ? 'internal':'external'; },
     action        : 'click',
-    label         : function(element) { return element.attr('href') },
+    label         : function(element) { return element.attr('href'); },
     value         : null,
     skip_internal : true,
-    event_name    : 'click'
+    event_name    : 'click',
+    debug         : false
   };
 })(jQuery);

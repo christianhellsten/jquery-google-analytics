@@ -170,6 +170,12 @@ The default behavior is to track the click event. This can be changed to any oth
   </code>
 </pre>
 
+h4. Debugging
+
+You can print debug statements to the Firebug console by setting the debug option. Default: false.
+
+To enable: <code>$.fn.track.defaults.debug = true;</code>
+
 h2. Author
 
 "Christian Hellsten":http://christianhellsten.com ("Aktagon Ltd.":http://aktagon.com)
