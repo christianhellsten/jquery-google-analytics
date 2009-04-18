@@ -180,3 +180,6 @@ h2. Author
 
 "Christian Hellsten":http://christianhellsten.com ("Aktagon Ltd.":http://aktagon.com)
 
+h3. Contributors
+
+"joshuajabbour":http://github.com/joshuajabbour
