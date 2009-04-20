@@ -182,4 +182,4 @@ h2. Author
 
 h3. Contributors
 
-"joshuajabbour":http://github.com/joshuajabbour
+"Joshua Jabbour":http://joshuajabbour.com
