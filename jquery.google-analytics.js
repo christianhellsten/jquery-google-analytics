@@ -1,71 +1,73 @@
 /*
 * jquery-google-analytics plugin
 *
-* A jQuery plugin that makes it easier to implement Google Analytics tracking, including event and link tracking.
+* A jQuery plugin that makes it easier to implement Google Analytics tracking,
+* including event and link tracking.
 *
 * Adds the following methods to jQuery:
-* - $.trackPage() - Adds Google Analytics tracking to the page it's called from.
-* - $('a').track() - Adds click tracking to elements.
-* - $.trackEvent() - Tracks an event using the given parameters. 
-* - $.timePageLoad() - Measures the time it takes  an event using the given parameters. 
+*   - $.trackPage() - Adds Google Analytics tracking on the page from which
+*     it's called.
+*   - $.trackEvent() - Tracks an event using the given parameters.
+*   - $('a').track() - Adds event tracking to element(s).
+*   - $.timePageLoad() - Measures the time it takes  an event using the given parameters.
 *
 * Features:
+*   - Improves page load time by loading Google Analytics code without blocking.
+*   - Easy and extensible event and link tracking plugin for jQuery and Google Analytics
+*   - Automatic internal/external link detection. Default behavior is to skip
+*     tracking of internal links.
+*   - Enforces that tracking event handler is added to an element only once.
+*   - Configurable: custom event tracking, skip internal links, metadata
+*     extraction using callbacks.
 *
-* - Improves page load times by loading Google Analytics code without blocking
-* - Easy and extensible event and link tracking plugin for jQuery and Google Analytics
-* - Automatic internal/external link detection. Default behavior is to skip tracking of internal links.
-* - Configurable: skip internal link tracking, metadata extraction using callbacks.
-* - Enforces that tracking event handler is added only once.
-*
-* Copyright (c) 2008 Christian Hellsten
+* Copyright (c) 2008-09 Christian Hellsten
 *
 * Plugin homepage:
-* http://aktagon.com/projects/jquery/google-analytics/
-* http://github.com/christianhellsten/jquery-google-analytics/
+*   http://aktagon.com/projects/jquery/google-analytics/
+*   http://github.com/christianhellsten/jquery-google-analytics/
 *
 * Examples:
-* http://aktagon.com/projects/jquery/google-analytics/examples/
-* http://code.google.com/apis/analytics/docs/eventTrackerGuide.html
+*   http://aktagon.com/projects/jquery/google-analytics/examples/
+*   http://code.google.com/apis/analytics/docs/eventTrackerGuide.html
 *
 * Repository:
-* git://github.com/christianhellsten/jquery-google-analytics.git
+*   git://github.com/christianhellsten/jquery-google-analytics.git
 *
 * Version 1.1.2
 *
 * Tested with:
-* - Mac: Firefox 3, Safari 3
-* - Linux: Firefox 3
-* - Windows: Firefox 3, Internet Explorer 6
+*   - Mac: Firefox 3, Safari 3
+*   - Linux: Firefox 3
+*   - Windows: Firefox 3, Internet Explorer 6
 *
 * Licensed under the MIT license:
 * http://www.opensource.org/licenses/mit-license.php
 *
 * Credits:
-*   - http://google.com/analytics: 
+*   - http://google.com/analytics
 *   - http://lyncd.com: 
 *       Idea for trackPage method came from this blog post: http://lyncd.com/2009/03/better-google-analytics-javascript/
-*
 */
-
 (function($) {
 
   var pageTracker;
 
   /**
-   * Enables Google Analytics tracking on the page it's called from. 
+   * Enables Google Analytics tracking on the page from which it's called. 
    *
-   * Example:
-   *
+   * Usage:
    *  <script type="text/javascript">
    *    $.trackPage('UA-xxx-xxx', options);
    *  </script>
    *
    * Parameters:
-   *
-   *  account_id - Your Google Analytics account ID.
-   *  options - An associative array containing one or more optional parameters:
-   *    - onload - If false, the Google Analytics code is loaded when this method is called instead of on window.onload.
-   *    - status_code - The HTTP status code of the current server response. If this is set to something other than 200 then the page is tracked as an error page. See this page for details: http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=86927
+   *   account_id - Your Google Analytics account ID.
+   *   options - An object containing one or more optional parameters:
+   *     - onload - boolean - If false, the Google Analytics code is loaded
+   *       when this method is called instead of on window.onload.
+   *     - status_code - The HTTP status code of the current server response.
+   *       If this is set to something other than 200 then the page is tracked
+   *       as an error page. For more details: http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=86927
    *
    */
   $.trackPage = function(account_id, options) {
@@ -142,37 +144,35 @@
    *
    */
   $.fn.track = function(options) {
-    
-    var element = $(this);
-    
-    // Prevent link from being tracked multiple times 
-    if (element.hasClass("tracked")) {
-      return;
-    }
-
-    element.addClass("tracked");
-
-    // Add click handler to all matching elements
+    // Add event handler to all matching elements
     return this.each(function() {
-      var link   = $(this);
+      var element = $(this);
+
+      // Prevent an element from being tracked multiple times.
+      if (element.hasClass('tracked')) {
+        return false;
+      } else {
+        element.addClass('tracked');
+      } 
 
       // Use default options, if necessary
       var settings = $.extend({}, $.fn.track.defaults, options);
 
-      var category = evaluate(link, settings.category);
-      var action   = evaluate(link, settings.action);
-      var label    = evaluate(link, settings.label);
-      var value    = evaluate(link, settings.value);
-      var event_name = evaluate(link, settings.event_name);
+      // Merge custom options with defaults.
+      var category = evaluate(element, settings.category);
+      var action   = evaluate(element, settings.action);
+      var label    = evaluate(element, settings.label);
+      var value    = evaluate(element, settings.value);
+      var event_name = evaluate(element, settings.event_name);
       
-      var message  = "category:'" + category + "' action:'" + action + "' label:'" + label + "' value:'" + value + "'";
+      var message = "category:'" + category + "' action:'" + action + "' label:'" + label + "' value:'" + value + "'";
       
       debug('Tracking ' + event_name + ' ' + message);
 
-      link.bind(event_name, function() {       
-        
-        // Should we skip internal links?
-        var skip = settings.skip_internal && (link[0].hostname == location.hostname);
+      // Bind the event to this element.
+      element.bind(event_name + '.track', function() {       
+        // Should we skip internal links? REFACTOR
+        var skip = settings.skip_internal && (element[0].hostname == location.hostname);
       
         if(!skip) {
           $.trackEvent(category, action, label, value);
@@ -186,6 +186,8 @@
     });
     
     /**
+     * Checks whether a setting value is a string or a function.
+     * 
      * If second parameter is a string: returns the value of the second parameter.
      * If the second parameter is a function: passes the element to the function and returns function's return value.
      */
