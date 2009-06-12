@@ -30,7 +30,7 @@
 * Repository:
 * git://github.com/christianhellsten/jquery-google-analytics.git
 *
-* Version 1.1.1
+* Version 1.1.2
 *
 * Tested with:
 * - Mac: Firefox 3, Safari 3
@@ -96,9 +96,15 @@
     }
 
     load_script = function() {
-      $.getScript(src, function() {
-        init_analytics();
-      })
+      $.ajax({
+        type: "GET",
+        url: src,
+        success: function() {          
+          init_analytics(); 
+        },
+        dataType: "script",
+        cache: true // We want the cached version
+      });
     }
     
     // Enable tracking when called or on page load?
