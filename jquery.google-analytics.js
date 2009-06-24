@@ -68,6 +68,7 @@
    *     - status_code - The HTTP status code of the current server response.
    *       If this is set to something other than 200 then the page is tracked
    *       as an error page. For more details: http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=86927
+   *     - callback  - function to be executed after the Google Analytics code is laoded and initialized
    *
    */
   $.trackPage = function(account_id, options) {
@@ -90,7 +91,9 @@
           debug('Tracking error ' + settings.status_code);
           pageTracker._trackPageview("/" + settings.status_code + ".html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer);
         }
-
+        if($.isFunction(options.callback)){
+          options.callback();
+        }
       }
       else { 
         throw "_gat is undefined"; // setInterval loading?
