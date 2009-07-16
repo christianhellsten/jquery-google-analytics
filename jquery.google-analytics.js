@@ -91,8 +91,8 @@
           debug('Tracking error ' + settings.status_code);
           pageTracker._trackPageview("/" + settings.status_code + ".html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer);
         }
-        if($.isFunction(options.callback)){
-          options.callback();
+        if($.isFunction(settings.callback)){
+          settings.callback();
         }
       }
       else { 
