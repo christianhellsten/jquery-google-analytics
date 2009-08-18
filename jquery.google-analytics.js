@@ -7,6 +7,7 @@
 * Adds the following methods to jQuery:
 *   - $.trackPage() - Adds Google Analytics tracking on the page from which
 *     it's called.
+*   - $.trackPageview() - Tracks a pageview using the given uri. Can be used for tracking Ajax requests: http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=55519
 *   - $.trackEvent() - Tracks an event using the given parameters.
 *   - $('a').track() - Adds event tracking to element(s).
 *   - $.timePageLoad() - Measures the time it takes  an event using the given parameters.
@@ -33,7 +34,7 @@
 * Repository:
 *   git://github.com/christianhellsten/jquery-google-analytics.git
 *
-* Version 1.1.2
+* Version 1.1.3
 *
 * Tested with:
 *   - Mac: Firefox 3, Safari 3
@@ -139,6 +140,18 @@
       pageTracker._trackEvent(category, action, label, value);
     }
   };
+
+  /**
+   * Tracks a pageview using the given uri.
+   *
+   */
+  $.trackPageview = function(uri) {
+    if(typeof pageTracker == 'undefined') {
+      debug('FATAL: pageTracker is not defined');
+    } else {
+      pageTracker._trackPageview(uri);
+    }
+  }
 
   /**
    * Adds click tracking to elements. Usage:

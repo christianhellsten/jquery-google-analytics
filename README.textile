@@ -176,6 +176,11 @@ You can print debug statements to the Firebug console by setting the debug optio
 
 To enable: <code>$.fn.track.defaults.debug = true;</code>
 
+h2. Todo
+
+* Review code
+* Refactor code
+
 h2. Author
 
 "Christian Hellsten":http://christianhellsten.com ("Aktagon Ltd.":http://aktagon.com)
