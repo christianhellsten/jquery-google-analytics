@@ -4,7 +4,7 @@ h2. Introduction
 
 The jQuery Google Analytics plugin does the following:
 
-* improves page load times by deferring the loading of Google Analytics to after the page has been loaded.
+* improves page load times by deferring the loading of Google Analytics to after the page has been loaded. (Note Google is currently testing their own implementation which does the same)
 * simplifies event and link tracking.
 * helps you track error pages (404, 500) as described "here":http://www.google.com/support/analytics/bin/answer.py?hl=en&answer=86927.
 
