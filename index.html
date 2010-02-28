@@ -1,14 +1,15 @@
 <html>
-	<head>
-		<title>jQuery Google Analytics Plugin Examples</title>
-		<script src="jquery.js" type="text/javascript"></script>
-		<script src="jquery.google-analytics.js" type="text/javascript"></script>
+  <head>
+    <title>jQuery Google Analytics Plugin Examples</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+    <script src="jquery.google-analytics.js" type="text/javascript"></script>
     <script type="text/javascript">
       // Track page, defer loading, track as 404 error
-      $.trackPage('UA-1079755-4', {status_code: 404})
+      $.trackPage('xxx', {status_code: 404})
     </script>
-	</head>
-	<body>
+  </head>
+<body>
 
     <h1>jQuery Google Analytics Plugin Examples</h1>
     <h2>Deferred loading of Google Analytics</h2>
@@ -21,54 +22,54 @@
     </pre>
     </code>
     <h2>Internal/external link tracking</h2>
-		<div class="normal">
-			<a href="/abcdef">Internal link</a><br/>
-			<a href="http://www.complex.com">External link</a><br/>
-			<a href="#">Named link</a><br/>
+    <div class="normal">
+      <a href="/abcdef">Internal link</a><br/>
+      <a href="http://www.complex.com">External link</a><br/>
+      <a href="#">Named link</a><br/>
       <a href="javascript:void(0)">JavaScript link</a>
-		</div>
+    </div>
 
     <h2>Metadata extraction using callbacks</h2>
-		<div class="sidebar">
-			<a href="http://www.sidebar.com">Sidebar link</a>
-		</div>		
+    <div class="sidebar">
+      <a href="http://www.sidebar.com">Sidebar link</a>
+    </div>          
 
-		<div class="footer">
-			<a href="http://www.footer.com">Footer link</a>
-		</div>
+    <div class="footer">
+      <a href="http://www.footer.com">Footer link</a>
+    </div>
 
-		<div class="complex">
-			<a href="http://www.complex.com" class="complex">Complex link</a>
-		</div>
+    <div class="complex">
+      <a href="http://www.complex.com" class="complex">Complex link</a>
+    </div>
 
-		<script type="text/javascript">
-		$(document).ready(function(){
-			$('.normal a').track();
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('.normal a').track();
 
-			$('.sidebar a').track({
-				category : 'sidebar'
-			});
+      $('.sidebar a').track({
+        category : 'sidebar'
+      });
 
-			$('.footer a').track({
-				category : 'footer'
-			});
+      $('.footer a').track({
+        category : 'footer'
+      });
 
-			// Support any markup you want, eg. http://microformats.org/wiki/xFolk
-			$('.complex a').track({
-				// Use class as category. " tracked" is added by plugin...
-				category : function(element) { return element.attr('class').replace(' tracked', '') }
-			});
-		});
-		</script>
+      // Support any markup you want, eg. http://microformats.org/wiki/xFolk
+      $('.complex a').track({
+        // Use class as category. " tracked" is added by plugin...
+        category : function(element) { return element.attr('class').replace(' tracked', '') }
+      });
+    });
+    </script>
 
     <h2>Mouse over event tracking</h2>
 
     <a href="www.google.com" id="hover">Hover over me</a>
-<script type="text/javascript">
-$(document).ready(function(){
-  $('a#hover').track({event_name: 'mouseover'})
-});
-</script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('a#hover').track({event_name: 'mouseover'})
+    });
+    </script>
 
     <pre><code>
 $(document).ready(function(){
@@ -86,5 +87,5 @@ $(document).ready(function(){
     </code></pre>
 
 
-	</body>
+  </body>
 </html>
