@@ -6,7 +6,8 @@
     <script src="jquery.google-analytics.js" type="text/javascript"></script>
     <script type="text/javascript">
       // Track page, defer loading, track as 404 error
-      $.trackPage('xxx', {status_code: 404})
+      $.trackPage('UA-XXX-XXX');
+      $.fn.track.defaults.debug = true;
     </script>
   </head>
 <body>
@@ -25,6 +26,7 @@
     <div class="normal">
       <a href="/abcdef">Internal link</a><br/>
       <a href="http://www.complex.com">External link</a><br/>
+      <a href="http://beastieboys.com/" target="_blank">External link in new window</a><br/>
       <a href="#">Named link</a><br/>
       <a href="javascript:void(0)">JavaScript link</a>
     </div>
@@ -64,10 +66,10 @@
 
     <h2>Mouse over event tracking</h2>
 
-    <a href="www.google.com" id="hover">Hover over me</a>
+    <a href="http://www.google.com" id="hover">Hover over me</a>
     <script type="text/javascript">
     $(document).ready(function(){
-      $('a#hover').track({event_name: 'mouseover'})
+      $('a#hover').track({event_name: 'mouseover',action: 'mouseover'})
     });
     </script>
 
