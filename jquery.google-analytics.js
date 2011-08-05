@@ -221,7 +221,7 @@
    *   $.fn.track.defaults.debug = true;
    */
   function debug(message) {
-    if (typeof console !== 'undefined' && typeof console.debug !== 'undefined' && $.fn.track.defaults.debug) {
+    if ($.fn.track.defaults.debug && typeof console !== 'undefined' && typeof console.debug !== 'undefined') {
       console.debug(message);
     }
   }
