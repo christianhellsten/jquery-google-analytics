@@ -73,7 +73,7 @@
    *
    */
   $.trackPage = function(account_id, options) {
-    var host = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    var host = (("https:" === document.location.protocol) ? "https://ssl." : "http://www.");
     var script;
 
     // Use default options, if necessary
@@ -81,12 +81,12 @@
     var src  = host + 'google-analytics.com/ga.js';
 
     function init_analytics() {
-      if (typeof _gat != undefined) {
+      if (typeof _gat !== undefined) {
         debug('Google Analytics loaded');
 
         pageTracker = _gat._getTracker(account_id);
 
-        if(settings.status_code == null || settings.status_code == 200) {
+        if(settings.status_code === null || settings.status_code === 200) {
           pageTracker._trackPageview();
         } else {
           debug('Tracking error ' + settings.status_code);
@@ -111,15 +111,15 @@
         dataType: "script",
         cache: true // We want the cached version
       });
-    }
+    };
     
     // Enable tracking when called or on page load?
-    if(settings.onload == true || settings.onload == null) {
+    if(settings.onload === true || settings.onload === null) {
       $(window).load(load_script);
     } else {
       load_script();
     }
-  }
+  };
 
   /**
    * Tracks an event using the given parameters. 
@@ -134,7 +134,7 @@
    *
    */
   $.trackEvent = function(category, action, label, value) {
-    if(typeof pageTracker == 'undefined') {
+    if(typeof pageTracker === 'undefined') {
       debug('FATAL: pageTracker is not defined'); // blocked by whatever
     } else {
       pageTracker._trackEvent(category, action, label, value);
@@ -146,12 +146,12 @@
    *
    */
   $.trackPageview = function(uri) {
-    if(typeof pageTracker == 'undefined') {
+    if(typeof pageTracker === 'undefined') {
       debug('FATAL: pageTracker is not defined');
     } else {
       pageTracker._trackPageview(uri);
     }
-  }
+  };
 
   /**
    * Adds click tracking to elements. Usage:
@@ -160,6 +160,19 @@
    *
    */
   $.fn.track = function(options) {
+    /**
+     * Checks whether a setting value is a string or a function.
+     * 
+     * If second parameter is a string: returns the value of the second parameter.
+     * If the second parameter is a function: passes the element to the function and returns function's return value.
+     */
+    function evaluate(element, text_or_function) {
+      if(typeof text_or_function === 'function') {
+        text_or_function = text_or_function(element);
+      }
+      return text_or_function;
+    }
+
     // Add event handler to all matching elements
     return this.each(function() {
       var element = $(this);
@@ -189,7 +202,7 @@
       // TODO Use .live since jQuery 1.4 now supports it better.
       element.bind(event_name + '.track', function() {       
         // Should we skip internal links? REFACTOR
-        var skip = settings.skip_internal && (element[0].hostname == location.hostname);
+        var skip = settings.skip_internal && (element[0].hostname === location.hostname);
       
         if(!skip) {
           $.trackEvent(category, action, label, value);
@@ -201,19 +214,6 @@
         return true;
       });
     });
-    
-    /**
-     * Checks whether a setting value is a string or a function.
-     * 
-     * If second parameter is a string: returns the value of the second parameter.
-     * If the second parameter is a function: passes the element to the function and returns function's return value.
-     */
-    function evaluate(element, text_or_function) {
-      if(typeof text_or_function == 'function') {
-        text_or_function = text_or_function(element);
-      }
-      return text_or_function;
-    };
   };
 
   /**
@@ -221,16 +221,16 @@
    *   $.fn.track.defaults.debug = true;
    */
   function debug(message) {
-    if (typeof console != 'undefined' && typeof console.debug != 'undefined' && $.fn.track.defaults.debug) {
+    if ($.fn.track.defaults.debug && typeof console !== 'undefined' && typeof console.debug !== 'undefined') {
       console.debug(message);
     }
-  };
+  }
 
   /**
    * Default (overridable) settings.
    */
   $.fn.track.defaults = {
-    category      : function(element) { return (element[0].hostname == location.hostname) ? 'internal':'external'; },
+    category      : function(element) { return (element[0].hostname === location.hostname) ? 'internal':'external'; },
     action        : 'click',
     label         : function(element) { return element.attr('href'); },
     value         : null,
@@ -238,4 +238,4 @@
     event_name    : 'click',
     debug         : false
   };
-})(jQuery);
+}(jQuery));
