@@ -93,7 +93,7 @@
           pageTracker._trackPageview("/" + settings.status_code + ".html?page=" + document.location.pathname + document.location.search + "&from=" + document.referrer);
         }
         if($.isFunction(settings.callback)){
-          settings.callback();
+          settings.callback(pageTracker);
         }
       }
       else { 
