@@ -142,6 +142,25 @@
   };
 
   /**
+   * Tracks socialnetworks using the given parameters. 
+   *
+   * The trackSocial method takes four arguments:
+   *
+   * network      - name of the network, e.g. facebook, tweeter
+   * socialAction - action, e.g. like/unlike
+   * opt_target   - Optional: A string representing the URL (or resource) which receives the action.
+   * opt_pagePath - Optional: A string representing the page by path (including parameters) from which the action occurred.
+   *
+   */
+  $.trackSocial = function(network, socialAction, opt_target, opt_pagePath) {
+    if(typeof pageTracker == 'undefined') {
+      debug('FATAL: pageTracker is not defined'); // blocked by whatever
+    } else {
+      pageTracker._trackSocial(network, socialAction, opt_target, opt_pagePath);
+    }
+  };
+
+  /**
    * Tracks a pageview using the given uri.
    *
    */
